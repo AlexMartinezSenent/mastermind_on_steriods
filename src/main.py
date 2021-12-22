@@ -3,6 +3,7 @@ import numpy as np
 import random 
 import time
 import keyboard
+from guess import Guess
 
 pygame.init()
 
@@ -14,7 +15,7 @@ menu_font = pygame.font.Font(None, 72)
 # icon = pygame.image.load('elephant_icon.png')
 # pygame.display.set_icon(icon)
 keys = keyboard.keyboard_init(screen)
-
+Guess(1)
 
 running = True
 while running:

@@ -1,5 +1,5 @@
 import pygame
-
+from event import Event
 
 def keyboard_init(screen):
     keys = [Key("0",(838,720-80-61),screen),
@@ -36,7 +36,8 @@ class Key:
 
     def is_pressed(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-            # TODO Event goes here
+            if not self.antibounce:
+                Event("key_pressed",self.value)
             self.antibounce = True
             return True
         else: 
