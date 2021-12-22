@@ -1,8 +1,11 @@
 from observer import Observer
+from event import Event
+
+# from main import guess_number
 
 class Guess(Observer):
     max_length = 8
-
+    
     def __init__(self, try_number):
         self.try_number = try_number
         self.number = []
@@ -11,14 +14,19 @@ class Guess(Observer):
 
 
     def callback(self, data):
+        # global guess_number
         if data == "enter":
             # TODO send number to slot
             if not self.number:
                 pass
             elif len(self.number) > self.max_length:
                 print(int("".join(self.number[:self.max_length])))
+                Event("new_guess",self)
+                # guess_number += 1
             else:
                 print(int("".join(self.number)))
+                Event("new_guess",self)
+                # guess_number += 1
             self.number = []
         elif data == "delete":
             if not self.number:
@@ -30,3 +38,4 @@ class Guess(Observer):
                 pass
             else:
                 self.number.append(data)
+        Event("number_update",self.number)
