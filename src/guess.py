@@ -6,15 +6,15 @@ from event import Event
 class Guess(Observer):
     max_length = 8
     
-    def __init__(self, try_number):
-        self.try_number = try_number
+    def __init__(self):
+        # self.try_number = try_number
         self.number = []
         Observer.__init__(self)
         self.observe("key_pressed",self.callback)
 
 
     def callback(self, data):
-        # global guess_number
+        global guess_number
         if data == "enter":
             # TODO send number to slot
             if not self.number:
@@ -22,11 +22,11 @@ class Guess(Observer):
             elif len(self.number) > self.max_length:
                 print(int("".join(self.number[:self.max_length])))
                 Event("new_guess",self)
-                # guess_number += 1
+                
             else:
                 print(int("".join(self.number)))
                 Event("new_guess",self)
-                # guess_number += 1
+                
             self.number = []
         elif data == "delete":
             if not self.number:

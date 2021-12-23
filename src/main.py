@@ -6,11 +6,14 @@ import keyboard
 from guess import Guess
 from display import LCD
 from passcode import Passcode
+from slots import Slots
+
 
 pygame.init()
 
 
 background = pygame.image.load('visuals/background.png')
+win_overlay = pygame.image.load('visuals/win_overlay.png')
 pygame.display.set_caption("MasterNumber")
 screen = pygame.display.set_mode((1080, 720))
 
@@ -19,8 +22,9 @@ menu_font = pygame.font.Font(None, 72)
 # pygame.display.set_icon(icon)
 keys = keyboard.keyboard_init(screen)
 passcode = Passcode(screen)
-guess_number = 1
-Guess(guess_number)
+slots = Slots(screen,passcode.passcode)
+
+Guess()
 
 lcd = LCD(screen)
 
@@ -30,11 +34,14 @@ while running:
     # pygame.event.get()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            passcode.draw_passcode()
-            time.sleep(2)
             running = False
     for key in keys:
         key.update_key()
     lcd.draw_number()
-    passcode.draw_question_marks()
+    if passcode.solved:
+        passcode.draw_passcode()
+        screen.blit(win_overlay,(0,0))
+    else:
+        passcode.draw_question_marks()
+    slots.draw_slots()
     pygame.display.update()

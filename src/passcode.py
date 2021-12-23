@@ -4,15 +4,20 @@ import random
 
 class Passcode(Observer):
     def __init__(self,screen):
-        decimal = round(random.random(),8)
-        self.passcode_string = str(decimal)[2:]
+        decimal = round(random.random(),12)
+        self.passcode_string = str(decimal)[2:10]
         self.passcode = list(self.passcode_string)
         self.font = pygame.font.Font(None, 100)
         self.location = (94,92)
         self.spacing = 76
         self.screen = screen
+        self.solved = False
+        Observer.__init__(self)
+        self.observe("solved",self.callback)
         
-
+    def callback(self,data):
+        self.solved = True
+    
     def draw_question_marks(self):
         global screen
         self.rend = self.font.render("?", True, (225,255,210))
